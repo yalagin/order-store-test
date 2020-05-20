@@ -29,8 +29,7 @@ class ProductAction extends AbstractController
             $request->get('item_max'),
             $request->get('item_min'),
             $request->get('price_max'),
-            $request->get('price_min'),
-            $page
+            $request->get('price_min')
         );
     }
 }

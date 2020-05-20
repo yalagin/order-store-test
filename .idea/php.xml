@@ -115,5 +115,17 @@
       <path value="$PROJECT_DIR$/api/vendor/sebastian/recursion-context" />
     </include_path>
   </component>
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="localhost" id="0705122e-cbcf-4b67-a7c0-ba69db46c96f" name="api-platform" port="8443" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/api" remote-root="srv/api" />
+          <mapping local-root="$PROJECT_DIR$/api/config/bootstrap.php" remote-root="/srv/api/config/bootstrap.php " />
+          <mapping local-root="$PROJECT_DIR$/api/public/index.php" remote-root="/srv/api/public/index.php" />
+          <mapping local-root="$PROJECT_DIR$/api/vendor" remote-root="/srv/api/vendor" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
 </project>

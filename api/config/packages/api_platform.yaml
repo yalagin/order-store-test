@@ -1,8 +1,8 @@
 api_platform:
-    title: Hello API Platform
+    title: Product Api 
     version: 1.0.0
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths: ['%kernel.project_dir%/src/Entity','%kernel.project_dir%/config/api_platform/resources']
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:

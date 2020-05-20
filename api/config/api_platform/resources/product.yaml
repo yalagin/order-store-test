@@ -1,0 +1,39 @@
+App\Entity\Product:
+    collectionOperations:
+        get_order:
+            method: get
+            controller: App\Controller\ProductAction
+            # if you are using OpenApi V3 use 'openapi_context' instead of 'swagger_context'
+            openapi_context:
+                summary: get all products or get order
+                description: >
+                    # Get all products and make an order !
+                parameters:
+                    -
+                        in: query
+                        name: item_max
+                        description: Maximum items
+                        schema:
+                            type: integer
+                        example: 3000
+                    -   in: query
+                        name: item_min
+                        schema:
+                            type: integer
+                        description: Minimum items
+                        example: 2500
+                    -   in: query
+                        name: price_min
+                        description: Minimum price
+                        schema:
+                            type: integer
+                        example: 2600000
+                    -   in: query
+                        name: price_max
+                        description: Maximum price
+                        schema:
+                            type: integer
+                        example: 3000000
+                    -   in: cookie
+                        name: XDEBUG_SESSION
+                        default: PHPSTORM

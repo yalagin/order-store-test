@@ -19,31 +19,42 @@ class ProductRepository extends ServiceEntityRepository
 
     public function __construct(
         ManagerRegistry $registry
-    ) {
+    )
+    {
         parent::__construct($registry, Product::class);
     }
-    public function getAllProducts(int $page = 1){
-        $queryBuilder = $this->createQueryBuilder();
+
+    public function getAllProducts(int $page = 1)
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
 
         $paginator = $this->paginator($page, $queryBuilder);
 
         return $paginator;
     }
 
-    public function getOderProducts(int $priceMax,int $priceMin,int $itemsMax,int $itemsMin, int $page = 1){
+    /**
+     * @return array|int|string
+     */
+    public function getAllOrders()
+    {
+        return $this->createQueryBuilder('p')
+            ->addOrderBy('p.price')
+            ->getQuery()
+            ->getArrayResult();
+    }
 
-        $queryBuilder = $this->createQueryBuilder();
-
-        $queryBuilder->select('b')
-            ->from(Product::class, 'p')
-//            ->where('b.author = :author')
-//            ->setParameter('author', $user->getFavoriteAuthor()->getId())
-//            ->andWhere('b.publicatedOn IS NOT NULL');
-            ->addOrderBy(p.price);
-
-        $paginator = $this->paginator($page, $queryBuilder);
-
-        return $paginator;
+    /**
+     * @param int $itemsMax
+     * @return array|int|string
+     */
+    public function getMaximumCheapOrders(int $itemsMax)
+    {
+        return $this->createQueryBuilder('p')
+            ->addOrderBy('p.price')
+            ->setMaxResults($itemsMax)
+            ->getQuery()
+            ->getArrayResult();
     }
 
     /**
