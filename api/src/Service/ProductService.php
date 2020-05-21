@@ -44,6 +44,8 @@ class ProductService
     public function getOderProducts($itemMax, $itemMin, $priceMax, $priceMin)
     {
         $this->orders = $this->productRepository->getMaximumCheapOrders($itemMax);
+        $totalSumOfOrder9 = $this->getTotalSumOfOrder();
+
 
         if ($this->checkIfOrderPriceIsGraterThanMaximumPrice($priceMax)) {
             $this->lowerItemsToFitMaximumPrice($itemMax, $priceMax);
@@ -74,11 +76,12 @@ class ProductService
         }
     }
 
-    private $totalScalableSum = 0;
+    private $shiftedItem = null;
 
-    private function scaleItemsCost($itemMax, $priceMax, $offset = 0)
+    private function scaleItemsCost($itemMax, $priceMax)
     {
-        $order = array_slice($this->orders, $offset + 1, $itemMax+1);
+
+        $order = array_slice($this->orders, null, $itemMax);
 
         $totalSum = 0;
         if (!empty($order)) {
@@ -86,15 +89,17 @@ class ProductService
                 $totalSum += $product['price'];
             }
         }
-        $test = 100;
-        if($itemMax+$offset=== 5000){
-            $test = 15;
-        }
 
-        if ($itemMax+$offset + 1 > $this->getAmountOfOrder() || $totalSum > $priceMax) {
-            $this->orders = array_slice($this->orders, $offset, $itemMax+1);
+        $amountOfOrder = $this->getAmountOfOrder();
+        if ($itemMax >= $amountOfOrder || $totalSum > $priceMax) {
+            if($this->shiftedItem) {
+                $order = array_slice($this->orders, null, $itemMax);
+                array_unshift($order, $this->shiftedItem);
+            }
+            $this->orders = $order;
         } else {
-            $this->scaleItemsCost($itemMax, $priceMax, $offset + 1);
+            $this->shiftedItem = array_shift($this->orders);
+            $this->scaleItemsCost($itemMax, $priceMax);
         }
     }
 }
